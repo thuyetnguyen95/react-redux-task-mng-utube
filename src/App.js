@@ -306,14 +306,14 @@ class App extends Component {
      */
     render() {
         let { isDisplayForm } = this.state;
-        let tasks = this.tasksHasFilter();
+        // let tasks = this.tasksHasFilter();
         let formElm = isDisplayForm ? this.getFormElement() : null;
 
         return (
             <div className="App">
                 <div className="container">
                     <div className="text-center">
-                        <h1>Quản Lý Công Việc</h1>
+                        <h1>First React App</h1>
                         <hr />
                     </div>
                     <div className="row">
@@ -329,7 +329,7 @@ class App extends Component {
                                 handleSort={this.handleSort}
                             />
                             <TaskList
-                                tasks={tasks}
+                                // tasks={tasks}
                                 changeStatus={this.changeStatus}
                                 deleteTask={this.deleteTask}
                                 editTask={this.editTask}
