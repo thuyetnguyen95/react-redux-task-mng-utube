@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../actions';
 
 class TaskItem extends Component {
     
@@ -8,7 +10,7 @@ class TaskItem extends Component {
      * @memberof TaskList
      */
     changeStatus = (task) => {
-        this.props.changeStatus(task);
+        this.props.updateStatus(task);
     }
 
     /**
@@ -58,4 +60,21 @@ class TaskItem extends Component {
     }
 }
 
-export default TaskItem;
+const mapStateToProps = () => {
+    return {};
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        updateStatus: (task) => {
+            dispatch(actions.updateStatus(task));
+        },
+
+        deleteTask: (task) => {
+            dispatch(actions.deleteTask(task));
+        }
+    }
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskItem);

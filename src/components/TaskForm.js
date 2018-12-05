@@ -87,7 +87,7 @@ class TaskForm extends Component {
      * @memberof TaskForm
      */
     handleCloseForm = () => {
-        this.props.handleCloseForm();
+        this.props.onCloseForm();
     }
 
     /**
@@ -150,7 +150,7 @@ class TaskForm extends Component {
                 <div className="panel-body">
                     <form onSubmit={e => this.handeFormSubmit(e)}>
                         <div className="form-group"><label>Tên :</label>
-                            <input type="text" className="form-control" name="taskName" value={this.state.taskName} onChange={this.handleOnChangeValue}/>
+                            <input type="text" className="form-control" name="taskName" value={this.state.taskName} onChange={this.handleOnChangeValue} autoComplete="off"/>
                         </div>
                         <label>Trạng Thái :</label>
                         <select className="form-control" name="taskStatus" value={this.state.taskStatus} onChange={this.handleOnChangeValue} >
@@ -175,7 +175,7 @@ class TaskForm extends Component {
 
 const mapStateToProps = state => {
     return {
-
+        
     }
 }
 
@@ -183,6 +183,11 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         onAddTask : (task) => {
             dispatch(actions.addTask(task));
+        },
+
+        
+        onCloseForm: () => {
+            dispatch(actions.closeForm());
         }
     }
 }

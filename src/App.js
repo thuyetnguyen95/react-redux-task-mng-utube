@@ -3,6 +3,8 @@ import './App.css';
 import TaskForm from "./components/TaskForm";
 import Control from './components/Control';
 import TaskList from './components/TaskList';
+import { connect } from 'react-redux';
+import * as actions from './actions';
 
 /**
  * This project is simple react task manager from a youtube tutorial
@@ -28,7 +30,6 @@ class App extends Component {
                 { id: 5, name: 'Play game', status: false },
             ],
 
-            isDisplayForm: false,
             taskSelected: '',
             filterName: '',
             filterStatus: -1,
@@ -45,7 +46,6 @@ class App extends Component {
      */
     handleCloseForm = () => {
         this.setState({
-            isDisplayForm: false,
             taskSelected: null,
         })
     }
@@ -65,22 +65,6 @@ class App extends Component {
         this.setState({
             tasks: this.state.tasks
         })
-    }
-
-    /**
-     * Update status when clicked
-     *
-     * @memberof App
-     */
-    changeStatus = task => {
-        let listTask = this.state.tasks;
-        let idx = listTask.indexOf(task);
-
-        listTask[idx].status = !listTask[idx].status;
-
-        this.setState({
-            tasks: listTask
-        });
     }
 
     /**
@@ -106,7 +90,6 @@ class App extends Component {
      */
     editTask = taskSelected => {
         this.setState({
-            isDisplayForm: true,
             taskSelected: taskSelected,
             formTitle: 'Cập nhật công việc'
         })
@@ -136,17 +119,7 @@ class App extends Component {
      * @memberof App
      */
     handleToggleForm = () => {
-        if (this.state.isDisplayForm && this.state.taskSelected) {
-            this.setState({
-                isDisplayForm: true,
-                taskSelected: null,
-                formTitle: 'Thêm công việc'
-            })
-        } else {
-            this.setState({
-                isDisplayForm: !this.state.isDisplayForm
-            })
-        }
+        this.props.onToggleForm();
     }
 
     /**
@@ -289,7 +262,6 @@ class App extends Component {
             <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <TaskForm
                     formTitle={this.state.formTitle}
-                    handleCloseForm={this.handleCloseForm}
                     addNewTask={ahihi => this.addNewTask(ahihi)}
                     taskSelected={this.state.taskSelected}
                     updateTask={this.updateTask}
@@ -305,15 +277,14 @@ class App extends Component {
      * @memberof App
      */
     render() {
-        let { isDisplayForm } = this.state;
-        // let tasks = this.tasksHasFilter();
+        let { isDisplayForm } = this.props;
         let formElm = isDisplayForm ? this.getFormElement() : null;
 
         return (
             <div className="App">
                 <div className="container">
                     <div className="text-center">
-                        <h1>First React App</h1>
+                        <h1>REACT WITH REDUX</h1>
                         <hr />
                     </div>
                     <div className="row">
@@ -329,7 +300,6 @@ class App extends Component {
                                 handleSort={this.handleSort}
                             />
                             <TaskList
-                                // tasks={tasks}
                                 changeStatus={this.changeStatus}
                                 deleteTask={this.deleteTask}
                                 editTask={this.editTask}
@@ -343,4 +313,18 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        isDisplayForm: state.isDisplayForm
+    };
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onToggleForm: () => {
+            dispatch(actions.toggleForm());
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
