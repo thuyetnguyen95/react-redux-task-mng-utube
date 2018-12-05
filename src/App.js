@@ -278,7 +278,6 @@ class App extends Component {
      */
     render() {
         let { isDisplayForm } = this.props;
-        let formElm = isDisplayForm ? this.getFormElement() : null;
 
         return (
             <div className="App">
@@ -289,7 +288,14 @@ class App extends Component {
                     </div>
                     <div className="row">
 
-                        {formElm}
+                        <div className={isDisplayForm ? 'col-xs-4 col-sm-4 col-md-4 col-lg-4' : ''}>
+                            <TaskForm
+                                formTitle={this.state.formTitle}
+                                addNewTask={ahihi => this.addNewTask(ahihi)}
+                                taskSelected={this.state.taskSelected}
+                                updateTask={this.updateTask}
+                            />
+                        </div>
                     
                         <div className={isDisplayForm ? 'col-xs-8 col-sm-8 col-md-8 col-lg-8' : 'col-xs-12 col-sm-12 col-md-12 col-lg-12'} >
                             <button type="button" className="btn btn-primary" onClick={this.handleToggleForm}>

@@ -81,3 +81,15 @@ export const deleteTask = (task) => {
         task,
     }
 }
+
+/**
+ * Edit task
+ * 
+ * @param {*} task 
+ */
+export const editTask = (task) => {
+    return {
+        type: types.EDIT_TASK,
+        task, // task: task
+    }
+}

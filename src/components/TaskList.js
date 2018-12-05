@@ -34,22 +34,12 @@ class TaskList extends Component {
         });
     }
 
-    /**
-     * Edit task
-     * 
-     * @memberof App
-     */
-    editTask = taskSelected => {
-        this.props.editTask(taskSelected);
-    }
-
     render() {
         let task = this.props.tasks.map((item, idx) => {
             return <TaskItem
                         key={idx}
                         idx={idx}
                         taskValue={item}
-                        editTask={this.editTask}
                     />;
         });
 

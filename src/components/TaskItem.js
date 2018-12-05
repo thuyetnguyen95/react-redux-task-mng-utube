@@ -28,6 +28,7 @@ class TaskItem extends Component {
      * @memberof TaskList
      */
     editTask = taskSelected => {
+        this.props.openForm();
         this.props.editTask(taskSelected);
     }
 
@@ -72,6 +73,14 @@ const mapDispatchToProps = (dispatch, props) => {
 
         deleteTask: (task) => {
             dispatch(actions.deleteTask(task));
+        },
+
+        editTask: (task) => {
+            dispatch(actions.editTask(task));
+        },
+
+        openForm: () => {
+            dispatch(actions.openForm());
         }
     }
 
