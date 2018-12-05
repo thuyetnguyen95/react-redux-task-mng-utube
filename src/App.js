@@ -35,64 +35,7 @@ class App extends Component {
             filterStatus: -1,
             searchKeyWord: '',
             sortType: null,
-            formTitle: 'Thêm công việc'
         }
-    }
-
-    /**
-     * Close form when click close button on form
-     *
-     * @memberof App
-     */
-    handleCloseForm = () => {
-        this.setState({
-            taskSelected: null,
-        })
-    }
-
-    /**
-     * Store new task
-     *
-     * @memberof App
-     */
-    addNewTask = (ahihi) => {
-        this.state.tasks.push({
-            id: this.state.tasks.length + 1,
-            name: ahihi.name,
-            status: ahihi.status
-        })
-
-        this.setState({
-            tasks: this.state.tasks
-        })
-    }
-
-    /**
-     * Delete task
-     *
-     * @memberof App
-     */
-    deleteTask = task => {
-        let listTask = this.state.tasks;
-        let idx = listTask.indexOf(task);
-
-        listTask.splice(idx, 1);
-
-        this.setState({
-            tasks: listTask
-        });
-    }
-
-    /**
-     * Open form and fill data to edit
-     *
-     * @memberof App
-     */
-    editTask = taskSelected => {
-        this.setState({
-            taskSelected: taskSelected,
-            formTitle: 'Cập nhật công việc'
-        })
     }
 
     /**
@@ -100,26 +43,14 @@ class App extends Component {
      *
      * @memberof App
      */
-    updateTask = taskUpdated => {
-        let listTask = this.state.tasks;
-        let taskUpdateIdx = listTask.findIndex((item) => {
-            return item.id === taskUpdated.id;
-        });
-
-        listTask[taskUpdateIdx] = taskUpdated;
-        this.setState({
-            tasks: listTask,
-            taskSelected: '',
-        });
-    }
-
-    /**
-     * Toggle form add , edit
-     *
-     * @memberof App
-     */
-    handleToggleForm = () => {
-        this.props.onToggleForm();
+    onToggleForm = () => {
+        let { taskEditting } = this.props;
+        if (taskEditting && taskEditting.id) {
+            this.props.openForm();
+        } else {
+            this.props.onToggleForm();
+        }
+        this.props.onResetForm({id: null, name: '', status: 1,});
     }
 
     /**
@@ -128,7 +59,7 @@ class App extends Component {
      * @memberof App
      */
     handleSearch = keyWord => {
-        this.setState({ searchKeyWord: keyWord})
+        this.setState({ searchKeyWord: keyWord })
     }
 
     /**
@@ -253,24 +184,6 @@ class App extends Component {
     }
 
     /**
-     * Render form element with condition
-     *
-     * @memberof App
-     */
-    getFormElement = () => {
-        return (
-            <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <TaskForm
-                    formTitle={this.state.formTitle}
-                    addNewTask={ahihi => this.addNewTask(ahihi)}
-                    taskSelected={this.state.taskSelected}
-                    updateTask={this.updateTask}
-                />
-            </div>
-        )
-    }
-
-    /**
      * Render all component
      *
      * @returns
@@ -289,27 +202,18 @@ class App extends Component {
                     <div className="row">
 
                         <div className={isDisplayForm ? 'col-xs-4 col-sm-4 col-md-4 col-lg-4' : ''}>
-                            <TaskForm
-                                formTitle={this.state.formTitle}
-                                addNewTask={ahihi => this.addNewTask(ahihi)}
-                                taskSelected={this.state.taskSelected}
-                                updateTask={this.updateTask}
-                            />
+                            <TaskForm />
                         </div>
                     
                         <div className={isDisplayForm ? 'col-xs-8 col-sm-8 col-md-8 col-lg-8' : 'col-xs-12 col-sm-12 col-md-12 col-lg-12'} >
-                            <button type="button" className="btn btn-primary" onClick={this.handleToggleForm}>
+                            <button type="button" className="btn btn-primary" onClick={this.onToggleForm}>
                                 <span className="fa fa-plus mr-5"></span>Thêm công việc
                             </button>
                             <Control
                                 handleSearch={this.handleSearch}
                                 handleSort={this.handleSort}
                             />
-                            <TaskList
-                                changeStatus={this.changeStatus}
-                                deleteTask={this.deleteTask}
-                                editTask={this.editTask}
-                                filter={this.filter}
+                            <TaskList filter={this.filter}
                             />
                         </div>
                     </div>
@@ -321,7 +225,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
     return {
-        isDisplayForm: state.isDisplayForm
+        isDisplayForm: state.isDisplayForm,
+        taskEditting: state.taskEditting
     };
 }
 
@@ -329,6 +234,14 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         onToggleForm: () => {
             dispatch(actions.toggleForm());
+        },
+
+        onResetForm: (task) => {
+            dispatch(actions.editTask(task));
+        },
+
+        openForm: () => {
+            dispatch(actions.openForm());
         }
     };
 }

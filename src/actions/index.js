@@ -93,3 +93,10 @@ export const editTask = (task) => {
         task, // task: task
     }
 }
+
+export const updateTask = task => {
+    return {
+        type: types.UPDATE_TASK,
+        task, // task: task
+    }
+}

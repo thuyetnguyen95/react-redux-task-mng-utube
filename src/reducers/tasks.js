@@ -8,20 +8,21 @@ let myReducer = (state = initialState, action) => {
         case types.LIST_ALL: // show all tasks
             return state;
 
-        case types.ADD_TASK: // add new tasks
+        case types.ADD_TASK:
             state = create(state, action.task)
         
             return state;
 
-        case types.UPDATE_STATUS: // update task status
+        case types.UPDATE_STATUS:
             state = updateStatus(state, action.task);
         
             return state;
 
-        case types.DELETE_TASK: // update task status
-            state = deleteTask(state, action.task);
-        
-            return state;
+        case types.DELETE_TASK:
+            return deleteTask(state, action.task);
+
+        case types.UPDATE_TASK: 
+            return updateTask(state, action.task);
 
         default: return state;
     }
@@ -64,6 +65,18 @@ function deleteTask(state, actionData) {
     let idx = state.indexOf(actionData);
     state.splice(idx, 1);
 
+    localStorage.setItem('tasks', JSON.stringify(state))
+
+    return [...state];
+}
+
+
+function updateTask(state, actionData) {
+    let taskUpdateIdx = state.findIndex((item) => {
+        return item.id === actionData.id;
+    });
+
+    state[taskUpdateIdx] = actionData
     localStorage.setItem('tasks', JSON.stringify(state))
 
     return [...state];
