@@ -34,42 +34,12 @@ class TaskList extends Component {
         });
     }
 
-     /**
-     * Update status when clicked
-     * 
-     * @memberof App
-     */
-    changeStatus = task => {
-        this.props.changeStatus(task);
-    }
-
-    /**
-     * Delete task
-     * 
-     * @memberof App
-     */
-    deleteTask = task => {
-        this.props.deleteTask(task);
-    }
-
-    /**
-     * Edit task
-     * 
-     * @memberof App
-     */
-    editTask = taskSelected => {
-        this.props.editTask(taskSelected);
-    }
-
     render() {
         let task = this.props.tasks.map((item, idx) => {
             return <TaskItem
                         key={idx}
                         idx={idx}
                         taskValue={item}
-                        changeStatus={this.changeStatus}
-                        deleteTask={this.deleteTask}
-                        editTask={this.editTask}
                     />;
         });
 
