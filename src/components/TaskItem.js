@@ -49,10 +49,10 @@ class TaskItem extends Component {
                     </span>
                 </td>
                 <td className="text-center">
-                    <button type="button" className="btn btn-warning btn-sm" onClick={() => this.editTask(taskValue)} >
+                    <button type="button" className="btn btn-warning btn-sm" onClick={() => this.editTask(taskValue)} title="Edit">
                         <span className="fa fa-edit mr-5"></span>
                     </button>&nbsp;
-                    <button type="button" className="btn btn-danger btn-sm" onClick={() => this.deleteTask(taskValue)} >
+                    <button type="button" className="btn btn-danger btn-sm" onClick={() => this.deleteTask(taskValue)} title="Delete">
                         <span className="fa fa-trash mr-5"></span>
                     </button>
                 </td>

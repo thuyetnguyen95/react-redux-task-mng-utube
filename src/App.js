@@ -29,12 +29,6 @@ class App extends Component {
                 { id: 4, name: 'Breath', status: true },
                 { id: 5, name: 'Play game', status: false },
             ],
-
-            taskSelected: '',
-            filterName: '',
-            filterStatus: -1,
-            searchKeyWord: '',
-            sortType: null,
         }
     }
 
@@ -51,136 +45,6 @@ class App extends Component {
             this.props.onToggleForm();
         }
         this.props.onResetForm({id: null, name: '', status: 1,});
-    }
-
-    /**
-     * Handle search tasks name
-     *
-     * @memberof App
-     */
-    handleSearch = keyWord => {
-        this.setState({ searchKeyWord: keyWord })
-    }
-
-    /**
-     * Handle sort tasks
-     *
-     * @param {*} sortType
-     * @memberof App
-     */
-    handleSort = sortType => {
-        this.setState({ sortType: sortType });
-    }
-
-    /**
-     * Hmm, It's the last function In write-in this project
-     * I think I should eat something because I'm really really hungry now
-     * One thing, If you read my code and you feel this like the garbage! Ok, take it and make it awesome more than my code!
-     * Thank you!
-     * Warning: don't trust this code
-     *
-     * @param {*} tasks
-     * @returns {array} tasksSorted
-     * 
-     * @memberof App
-     */
-    sort(tasks) {
-        let tasksSorted = null;
-        switch (this.state.sortType) {
-            case 1: tasksSorted = tasks.sort((prevItem, nextItem) => {
-                        let fist = prevItem.name.toLowerCase();
-                        let second = nextItem.name.toLowerCase();
-                        
-                        if (fist < second) { return -1; }    
-                        if (fist > second) { return 1; }
-                
-                        return 0;
-                    })
-                    break;
-
-            case 2: tasksSorted = tasks.sort((prevItem, nextItem) => {
-                        let fist = prevItem.name.toLowerCase();
-                        let second = nextItem.name.toLowerCase();
-                        
-                        if (fist > second) { return -1; }    
-                        if (fist < second) { return 1; }
-                
-                        return 0;
-                    })
-                    break;
-            case 3: tasksSorted = tasks.sort((prevItem, nextItem) => {
-                        let fist = prevItem.status;
-                        let second = nextItem.status;
-
-                        if (fist > second) { return -1; }    
-                        if (fist < second) { return 1; }
-                
-                        return 0;
-                    })
-                    break;
-
-            case 4: tasksSorted = tasks.sort((prevItem, nextItem) => {
-                        let fist = prevItem.status;
-                        let second = nextItem.status;
-
-                        if (fist < second) { return -1; }    
-                        if (fist > second) { return 1; }
-                
-                        return 0;
-                    })
-                break;
-
-                default: tasksSorted = tasks; break;
-        }
-
-        return tasksSorted;
-    }
-
-    /**
-     * Catch filter action and update state
-     *
-     * @memberof App
-     */
-    filter = (name, status) => {
-        this.setState({
-            filterName: name,
-            filterStatus: status
-        })
-    }
-
-    /**
-     * Filter name, status
-     *
-     * @memberof App
-     */
-    tasksHasFilter = () => {
-        let tasksFiltered = this.state.tasks;
-        if (this.state.filterName) {
-            tasksFiltered = tasksFiltered.filter(item => {
-                return item.name.toLowerCase().indexOf(this.state.filterName) !== -1;
-            });
-        }
-
-        if (this.state.filterStatus === 0) {
-            tasksFiltered = tasksFiltered.filter(item => item.status);
-        }
-
-        if (this.state.filterStatus === 1) {
-            tasksFiltered = tasksFiltered.filter(item => !item.status);
-        }
-
-        if (this.state.searchKeyWord) {
-            tasksFiltered = tasksFiltered.filter(item => {
-                return item.name.toLowerCase().indexOf(this.state.searchKeyWord) !== -1;
-            });
-        }
-
-        if (this.state.sortType) {
-            tasksFiltered = this.sort(tasksFiltered);
-        }
-        
-
-        return tasksFiltered;
     }
 
     /**
@@ -211,10 +75,9 @@ class App extends Component {
                             </button>
                             <Control
                                 handleSearch={this.handleSearch}
-                                handleSort={this.handleSort}
+                                handleSort={this.handleSort} 
                             />
-                            <TaskList filter={this.filter}
-                            />
+                            <TaskList />
                         </div>
                     </div>
                 </div>
